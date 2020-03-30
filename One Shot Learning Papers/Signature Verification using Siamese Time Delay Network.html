@@ -1,0 +1,52 @@
+Title: Signature Verification using a "Siamese" Time Delay Neural Network. NIPS - Conference paper, 1994.
+
+Astract
+
+- Paper describe an algorithm for verificatin of signatures
+- Algorithm base on siamese neural network that consists of two identical sub-networks joined at their outputs
+- During training two sub-networks extracts features from two signatures, while joining neuron measures the distance between the two vectors.
+- Verification consists of comparing an extracted feature vector with a stored feature vector for the signer.
+- Signatures closer to this stored representation than a chosen thresold are accepted, all other signatures are rejected as forgeries.
+
+Preprocesssing
+
+-  The next preprocessing step was to resample, using linear interpolation, all signatures to be the same length of 200 points as the neural network requires  fixed input size. majority fell between + 1 and -1
+
+Network Archtecture and Training
+
+- The Siamese network has two input fields to compare two patterns and one output whose state value corresponds to the similarity between the two patterns
+- Two separate sub-networks based on Time Delay Neural Networks (Lang and Hinton,1988, Guyon et al. 1990) act on each input pattern to extract features, then the cosine of the angle between two feature vectors is calculated and this represents the distance value.
+- Training was carried out using a modified version of back propagation (LeCun, 1989). All weights could be learnt, but the two sub-networks were constrained to have identical weights. 
+- The desired output for a pair of genuine signatures was for a small angle (we used cosine=l.O) between the two feature vectors and a large angle (we used cosine= -0.9 and -1.0) if one of the signatures was a forgery.
+- The training set consisted of 982 genuine signatures from 108 signers and 402 forgeries of about 40 of these signers. 
+- We used up to 7,701 signature pairsj 50% genuine:genuine pairs, 40% genuine:forgery pairs and 10% genuine:zero-effort pairs(also known as random forgeries, are those for which the forger makes no effort to copy the genuine signature).
+- The validation set consisted of 960 signature pairs in the same proportions as the training set. 
+- The network used for verification was that with the lowest error rate on the validation set. 
+
+TESTING
+
+- When used for verification, only one sub-network is evaluated.
+- The output of this is the feature vector for the signature. The feature vectors for the last six signatures signed by each person were used to make a multivariate normal density model of the person's signature.
+- For simplicity, we assume that the features are statistically independent, and that each feature has the same variance. 
+- Verification consists of comparing a feature vector with the model of the signature.
+- The probability density that a test signature is genuine, p-yes, is found by evaluating the normal density function. 
+ -The probability density that a test signature is a forgery, p-no, is assumed, for simplicity, to be a constant value over the range of interest. An estimate for this value was found by averaging the p-yes values for all forgeries. 
+ - Then the probability that a test signature is genuine is p-yesj(p-yes + pno). Signatures closer than a chosen threshold to this stored representation are accepted, all other signatures are rejected as forgeries. 
+ - Networks 1, 2 and 3, all based on architecture I, were tested using a set of 63 genuine signatures and 63 forgeries for 18 different people. 
+ - There were about 4 genuine test signatures for each of the 18 people, and 10 forgeries for 6 of these people. 
+ - Networks 1 and 2 had identical training except Network 2 was trained without pen up points. Network 1 gave the better results. However, with such a small test set, this difference may be hardly significant. 
+
+Results
+
+Best performance was obtained with Network 4. With the threshold set to detect 80% of forgeries, 95.5% of genuine signatures were detected (24 signatures rejected). 
+
+
+- Network1 Results: Training Set(GA 97%, FR %65, 26 epoch); Validation Set(GA %90, FR %74, 6 epoch)
+- Network3 Results: Training Set(GA 99%, FR %88, 100 epoch); Validation Set(GA %91, FR %74, 32 epoch)
+- Network5 Results: Training Set(GA 98%, FR %81, 42 epoch); Validation Set(GA %99, FR %80, 44 epoch)
+- GA is the percentage of genuine signature pairs with output greater than 0, FR the percentage of genuine:forgery signature pairs for which the output was less than O.
+
+
+Vocabularies
+forgery: sahtekarlık, sahtecilik
+genuine: hakiki
